@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import javax.swing.tree.FixedHeightLayoutCache;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -71,6 +70,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+
 
         Gdx.graphics.setTitle("Test LibGdx -- FPS :"+ Gdx.graphics.getFramesPerSecond());
 		Gdx.gl.glClearColor(1, 0, 0, 1);
