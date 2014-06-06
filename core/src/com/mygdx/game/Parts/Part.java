@@ -9,15 +9,6 @@ public abstract class Part {
 
 
     private boolean isAlive;
-    protected Gem gem;
-
-    public Gem getGem() {
-        return gem;
-    }
-
-    public void setGem(Gem gem) {
-        this.gem = gem;
-    }
 
     public boolean isAlive() {
         return isAlive;
