@@ -8,6 +8,11 @@ public class PositionPart extends Part {
     private float x;
     private float y;
 
+
+
+    private float xSpeed=300;
+    private float ySpeed=300;
+
     public PositionPart(float x, float y){
         this.x=x;
         this.y=y;
@@ -28,5 +33,21 @@ public class PositionPart extends Part {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public float getxSpeed() {
+        return xSpeed;
+    }
+
+    public void setxSpeed(float xSpeed) {
+        this.xSpeed = xSpeed;
+    }
+
+    public float getySpeed() {
+        return ySpeed;
+    }
+
+    public void setySpeed(float ySpeed) {
+        this.ySpeed = ySpeed;
     }
 }

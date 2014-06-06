@@ -1,6 +1,7 @@
 package com.mygdx.game.Parts;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.System.GameSystem;
 
 
 /**
@@ -46,15 +47,12 @@ public class EntityManager {
     }
 
     public void select(Entity entity){
-        System.out.println("Current Size:" + selections.size);
-        if(selections.size > 1) {
-            System.out.println("More than 2 selection. Clear previous selection");
+        if(selections.size > 2) {
             selections.clear();
 
         }
-        if(selections.size>=0 && selections.size <=1 ){
+        if(selections.size>=0 && selections.size <=2 ){
             selections.add(entity);
-            System.out.println(entity.get(DescriptionPart.class).getID() + " is selected. Current Size:" + selections.size);
         }
 
     }

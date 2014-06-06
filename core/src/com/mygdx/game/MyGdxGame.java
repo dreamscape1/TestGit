@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Parts.*;
 import com.mygdx.game.System.DrawSystem;
+import com.mygdx.game.System.GameSystem;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -45,6 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
     //**Managers**//
     private EntityManager em;
     private BasicObjectManager obm;
+    private GameSystem gm;
     //public static TextureLoader textureManager;
 
     //**Systems**//
@@ -71,6 +73,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //Initialize Managers//
         obm = new BasicObjectManager(this);
         em = new EntityManager();
+        gm = new GameSystem(em);
 
         //Initialize Systems//
         drawer=new DrawSystem(em, this);
@@ -111,13 +114,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
         //Check Input//
         CheckInput();
+        gm.update(Gdx.graphics.getDeltaTime());
 
         //Draw Shape//
         //sr.begin(ShapeRenderer.ShapeType.Filled);
 
         drawer.draw();
 
-        sr.end();
 
 
         //Draw Sprites//
@@ -132,37 +135,31 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public void CheckInput(){
 
+        if(!gm.isAnimating()) {
+            if (Gdx.input.isTouched()) {
+                mousePos.x = Gdx.input.getX();
+                mousePos.y = Gdx.input.getY();
+                isDown = true;
+            }
+            if (!Gdx.input.isTouched()) {
+                if (isDown) {
+                    cam.unproject(mousePos);
+                    System.out.println("X: " + mousePos.x + " -- Y: " + mousePos.y);
 
-        if(Gdx.input.isTouched()) {
-            mousePos.x = Gdx.input.getX();
-            mousePos.y = Gdx.input.getY();
-            isDown =true;
-        }
-        if(!Gdx.input.isTouched()) {
-            if (isDown) {
-                cam.unproject(mousePos);
-                System.out.println("X: " + mousePos.x + " -- Y: " + mousePos.y);
+                    //Mouse and Circle Collision Test
+                    for (Entity e : em.getEntities()) {
+                        if (mousePos.x > e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() &&
+                                mousePos.x <= e.get(PositionPart.class).getX() + e.get(CirclePart.class).getRadius() &&
+                                mousePos.y > e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() &&
+                                mousePos.y <= e.get(PositionPart.class).getY() + e.get(CirclePart.class).getRadius()
+                                ) {
+                            em.select(e);
+                            System.out.println(e.get(DescriptionPart.class).getID() + " is selected");
 
-                //Mouse and Circle Collision Test
-                for (Entity e : em.getEntities()) {
-                    if (mousePos.x > e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() &&
-                            mousePos.x <= e.get(PositionPart.class).getX() + e.get(CirclePart.class).getRadius() &&
-                            mousePos.y > e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() &&
-                            mousePos.y <= e.get(PositionPart.class).getY() + e.get(CirclePart.class).getRadius()
-                            ) {
-                        /*sr.begin(ShapeRenderer.ShapeType.Line);
-                        sr.setColor(Color.BLACK);
-                        sr.rect(e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() - 9,
-                                e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() - 10,
-                                60, 60);
-
-                        sr.end();*/
-                        em.select(e);
-                        System.out.println(e.get(DescriptionPart.class).getID() + " is selected");
-
+                        }
                     }
+                    isDown = false;
                 }
-                isDown = false;
             }
         }
 
