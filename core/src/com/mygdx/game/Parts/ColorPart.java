@@ -12,7 +12,9 @@ public class ColorPart extends Part {
     }
     private mColor mcolor;
 
-    public ColorPart(){}
+    public ColorPart(mColor color){
+        this.mcolor=color;
+    }
 
     public void setColor(mColor mcolor){
         this.mcolor = mcolor;

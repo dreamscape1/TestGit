@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.Parts.*;
+import com.mygdx.game.System.DrawSystem;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,9 +20,11 @@ public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
 	private Texture img;
     private BasicObject obj;
-    private  BasicObjectManager obm;
+    private BasicObjectManager obm;
     private Gem gem;
     private ArrayList<Gem> gems;
+
+
     private ShapeRenderer sr;
     private int x1=0,x2=0,y1=0,y2=0;
     private int touchCnt=0;
@@ -30,8 +34,15 @@ public class MyGdxGame extends ApplicationAdapter {
     private boolean swappable;
     private ArrayList<Gem> buffGem;
     private int gem1loc,gem2loc;
+    private Entity newGem;
+    private Entity newGem2;
+
+    //Managers/
+    private EntityManager em;
     //public static TextureLoader textureManager;
 
+    //Systems//
+    private DrawSystem drawer;
 
 
     private OrthographicCamera cam;
@@ -52,6 +63,8 @@ public class MyGdxGame extends ApplicationAdapter {
         int heightblock = 480/8;
         int widthblock = 640/8;
         bmf= new BitmapFont();
+        em = new EntityManager();
+        drawer=new DrawSystem(em, this);
 
         // Testing purpose
         /*Gem gem1 =new Gem(0,0,50,sr,cam);
@@ -66,7 +79,23 @@ public class MyGdxGame extends ApplicationAdapter {
                 gems.add(gem);
             }
         }
+
+
+        newGem = createEntity(10,10, ColorPart.mColor.BLUE);
+        newGem2= createEntity(600,400, ColorPart.mColor.GREEN);
+        em.add(newGem);
+        em.add(newGem2);
+
+
 	}
+
+    public Entity createEntity(float x, float y, ColorPart.mColor color)
+    {
+        Entity Gempart = new Entity();
+        Gempart.attach(new ColorPart(color));
+        Gempart.attach(new PositionPart(x,y));
+        return Gempart;
+    }
 
 	@Override
 	public void render () {
@@ -170,6 +199,9 @@ public class MyGdxGame extends ApplicationAdapter {
             swappable = false;
 
         }
+        drawer.draw();
+
+
 
         sr.end();
 		batch.begin();
@@ -197,5 +229,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public SpriteBatch getBatch() {
         return batch;
+    }
+
+
+    public ShapeRenderer getSr() {
+        return sr;
     }
 }

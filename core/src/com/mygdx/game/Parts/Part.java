@@ -8,7 +8,6 @@ import com.mygdx.game.Gem;
 public abstract class Part {
 
 
-    private float x,y;
     private boolean isAlive;
     protected Gem gem;
 
@@ -26,22 +25,6 @@ public abstract class Part {
 
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 
     public void update(float dt){
