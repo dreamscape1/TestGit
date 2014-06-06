@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.Parts.*;
 import com.mygdx.game.System.DrawSystem;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class MyGdxGame extends ApplicationAdapter implements InputListener {
 
 
     //**Screen Stuff**//
@@ -23,16 +24,19 @@ public class MyGdxGame extends ApplicationAdapter {
     private OrthographicCamera cam;
     private float delta;
 
-    private Gem gem;
-    private ArrayList<Gem> gems;
+    //**Game Board Stuff**//
+    private static final int xBLOCK =6;
+    private static final int yBLOCK = 5;
+    private static final float xBLOCK_OFFSET = 60;
+    private static final float yBLOCK_OFFSET = 40;
+
 
 
 
     private int x1=0,x2=0,y1=0,y2=0;
     private int touchCnt=0;
     private BitmapFont bmf;
-    private Entity newGem;
-    private Entity newGem2;
+
 
     //**SpriteBatch and ShapeRenderer**//
     private ShapeRenderer sr;
@@ -58,6 +62,7 @@ public class MyGdxGame extends ApplicationAdapter {
         sr = new ShapeRenderer();
 
 
+
         //Initialize Managers//
         obm = new BasicObjectManager(this);
         em = new EntityManager();
@@ -68,21 +73,24 @@ public class MyGdxGame extends ApplicationAdapter {
         delta=0;
         bmf= new BitmapFont();
 
-        newGem = createEntity(10,10, ColorPart.mColor.BLUE);
-        newGem2= createEntity(600,400, ColorPart.mColor.GREEN);
-        em.add(newGem);
-        em.add(newGem2);
 
+        //Create 'gem' on screen//
+        for(int x =0 ; x < xBLOCK ; x++){
+
+            for(int y =0 ; y <yBLOCK ; y++){
+                Entity entity = EntityGenerator.create
+                        (true,
+                         Gdx.graphics.getWidth()/xBLOCK*x +xBLOCK_OFFSET,
+                         Gdx.graphics.getHeight()/yBLOCK*y+yBLOCK_OFFSET,
+                         20,
+                         null);
+                em.add(entity);
+
+            }
+        }
 
 	}
 
-    public Entity createEntity(float x, float y, ColorPart.mColor color)
-    {
-        Entity Gempart = new Entity();
-        Gempart.attach(new ColorPart(color));
-        Gempart.attach(new PositionPart(x,y));
-        return Gempart;
-    }
 
 	@Override
 	public void render () {

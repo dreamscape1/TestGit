@@ -3,10 +3,8 @@ package com.mygdx.game.System;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Parts.ColorPart;
-import com.mygdx.game.Parts.Entity;
-import com.mygdx.game.Parts.EntityManager;
-import com.mygdx.game.Parts.PositionPart;
+import com.mygdx.game.Parts.*;
+import javafx.scene.shape.Circle;
 
 /**
  * Created by sokokhoe on 6/6/2014.
@@ -25,14 +23,28 @@ public class DrawSystem {
 
     public void draw(){
         for(Entity e : em.getEntities()){
-            if(e.get(ColorPart.class).getColor()== ColorPart.mColor.GREEN)
-                sr.setColor(Color.GREEN);
-            if(e.get(ColorPart.class).getColor()== ColorPart.mColor.BLUE)
-                sr.setColor(Color.BLUE);
-            else if(e.get(ColorPart.class).getColor()== ColorPart.mColor.CYAN)
-                sr.setColor(Color.CYAN);
 
-            sr.circle(e.get(PositionPart.class).getX(),e.get(PositionPart.class).getY(),50);
+            switch(e.get(ColorPart.class).getColor()){
+                case GREEN:
+                    sr.setColor(Color.GREEN);
+                    break;
+                case BLUE:
+                    sr.setColor(Color.BLUE);
+                    break;
+                case CYAN:
+                    sr.setColor(Color.CYAN);
+                    break;
+                case BLACK:
+                    sr.setColor(Color.BLACK);
+                default:
+                    assert false;
+                    break;
+            }
+
+
+
+            sr.circle(e.get(PositionPart.class).getX(),e.get(PositionPart.class).getY(),e.get(CirclePart.class).getRadius());
+
         }
     }
 }
