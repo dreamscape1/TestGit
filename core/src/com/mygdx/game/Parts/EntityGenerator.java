@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
  */
 public class EntityGenerator {
 
-
+    public static int entityCount=0;
     private boolean isRandom;
 
 
@@ -17,6 +17,10 @@ public class EntityGenerator {
         newEntity.attach(new PositionPart(x,y));
         newEntity.attach(new ColorPart());
         newEntity.attach(new CirclePart(radius));
+        newEntity.attach(new DescriptionPart());
+        newEntity.get(DescriptionPart.class).setID("I am GEM #" + entityCount);
+        entityCount++;
+
 
         if(isRandom) {
             if (color == null) {

@@ -8,6 +8,8 @@ import com.mygdx.game.Gem;
 public abstract class Part {
 
 
+
+    private String ID;
     private boolean isAlive;
 
     public boolean isAlive() {
@@ -20,6 +22,14 @@ public abstract class Part {
 
     public void update(float dt){
 
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
 

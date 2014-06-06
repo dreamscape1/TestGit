@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 public class Entity {
 
+
     private HashMap<Class<? extends Part>, Part> parts = new HashMap<Class<? extends Part>, Part>();
 
     public void attach(Part part) {
