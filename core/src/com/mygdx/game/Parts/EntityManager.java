@@ -9,11 +9,12 @@ import com.badlogic.gdx.utils.Array;
 public class EntityManager {
 
     private Array<Entity> entities;
-
+    private static Array<Entity> selections;
 
 
     public EntityManager(){
         entities= new Array<Entity>();
+        selections = new Array<Entity>();
     }
 
 
@@ -38,6 +39,24 @@ public class EntityManager {
 
     public void add(Entity entity){
         entities.add(entity);
+    }
+
+    public Array<Entity> getSelections() {
+        return selections;
+    }
+
+    public void select(Entity entity){
+        System.out.println("Current Size:" + selections.size);
+        if(selections.size > 1) {
+            System.out.println("More than 2 selection. Clear previous selection");
+            selections.clear();
+
+        }
+        if(selections.size>=0 && selections.size <=1 ){
+            selections.add(entity);
+            System.out.println(entity.get(DescriptionPart.class).getID() + " is selected. Current Size:" + selections.size);
+        }
+
     }
 
 }

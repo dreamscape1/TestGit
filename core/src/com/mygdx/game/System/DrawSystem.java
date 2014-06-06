@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Parts.*;
-import javafx.scene.shape.Circle;
 
 /**
  * Created by sokokhoe on 6/6/2014.
@@ -22,6 +21,7 @@ public class DrawSystem {
     }
 
     public void draw(){
+
         for(Entity e : em.getEntities()){
 
             switch(e.get(ColorPart.class).getColor()){
@@ -40,11 +40,20 @@ public class DrawSystem {
                     assert false;
                     break;
             }
-
-
-
+            sr.begin(ShapeRenderer.ShapeType.Filled);
             sr.circle(e.get(PositionPart.class).getX(),e.get(PositionPart.class).getY(),e.get(CirclePart.class).getRadius());
-
+            sr.end();
         }
+        for(Entity e : em.getSelections()){
+            sr.begin(ShapeRenderer.ShapeType.Line);
+            sr.setColor(Color.BLACK);
+            sr.rect(e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() - 9,
+                    e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() - 10,
+                    60, 60);
+            sr.end();
+        }
+
     }
+
+
 }

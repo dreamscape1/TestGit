@@ -9,14 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.Parts.*;
 import com.mygdx.game.System.DrawSystem;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -33,7 +28,9 @@ public class MyGdxGame extends ApplicationAdapter {
     private static final float xBLOCK_OFFSET = 60;
     private static final float yBLOCK_OFFSET = 40;
 
-
+    //Input polling stuff//
+    private boolean isDown=false;
+    Vector3 mousePos;
 
 
     private int x1=0,x2=0,y1=0,y2=0;
@@ -59,6 +56,11 @@ public class MyGdxGame extends ApplicationAdapter {
         //Initialize Camera
         cam = new OrthographicCamera();
         cam.setToOrtho(false,640,480);
+
+        //Initialize Inputprocessor//
+        mousePos = new Vector3();
+
+
 
         //Initialize Renderer
         batch = new SpriteBatch();
@@ -111,7 +113,7 @@ public class MyGdxGame extends ApplicationAdapter {
         CheckInput();
 
         //Draw Shape//
-        sr.begin(ShapeRenderer.ShapeType.Filled);
+        //sr.begin(ShapeRenderer.ShapeType.Filled);
 
         drawer.draw();
 
@@ -129,32 +131,43 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
     public void CheckInput(){
-        Vector3 mousePos = new Vector3();
+
+
         if(Gdx.input.isTouched()) {
             mousePos.x = Gdx.input.getX();
             mousePos.y = Gdx.input.getY();
-            cam.unproject(mousePos);
-            System.out.println("X: "+mousePos.x +" -- Y: "+mousePos.y);
+            isDown =true;
         }
+        if(!Gdx.input.isTouched()) {
+            if (isDown) {
+                cam.unproject(mousePos);
+                System.out.println("X: " + mousePos.x + " -- Y: " + mousePos.y);
 
-        //Mouse and Circle Collision Test
-        for(Entity e : em.getEntities()){
-            if(mousePos.x > e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() &&
-               mousePos.x <= e.get(PositionPart.class).getX() + e.get(CirclePart.class).getRadius() &&
-               mousePos.y > e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() &&
-               mousePos.y <= e.get(PositionPart.class).getY() + e.get(CirclePart.class).getRadius()
-               ) {
-                sr.begin(ShapeRenderer.ShapeType.Line);
-                sr.setColor(Color.BLACK);
-                sr.rect( e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius()-9,
-                         e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius()-10,
-                        60,60);
-                System.out.println(e.get(DescriptionPart.class).getID() + " is cliced");
-                sr.end();
+                //Mouse and Circle Collision Test
+                for (Entity e : em.getEntities()) {
+                    if (mousePos.x > e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() &&
+                            mousePos.x <= e.get(PositionPart.class).getX() + e.get(CirclePart.class).getRadius() &&
+                            mousePos.y > e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() &&
+                            mousePos.y <= e.get(PositionPart.class).getY() + e.get(CirclePart.class).getRadius()
+                            ) {
+                        /*sr.begin(ShapeRenderer.ShapeType.Line);
+                        sr.setColor(Color.BLACK);
+                        sr.rect(e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() - 9,
+                                e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() - 10,
+                                60, 60);
 
+                        sr.end();*/
+                        em.select(e);
+                        System.out.println(e.get(DescriptionPart.class).getID() + " is selected");
+
+                    }
+                }
+                isDown = false;
             }
         }
+
     }
+
 
 
     @Override
