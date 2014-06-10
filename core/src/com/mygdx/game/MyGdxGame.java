@@ -19,7 +19,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
     //**Screen Stuff**//
 	private Texture img;
-    private BasicObject obj;
     private OrthographicCamera cam;
     private float delta;
 
@@ -45,7 +44,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
     //**Managers**//
     private EntityManager em;
-    private BasicObjectManager obm;
     private GameSystem gm;
     //public static TextureLoader textureManager;
 
@@ -71,7 +69,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         //Initialize Managers//
-        obm = new BasicObjectManager(this);
         em = new EntityManager();
         gm = new GameSystem(em);
 
@@ -127,7 +124,6 @@ public class MyGdxGame extends ApplicationAdapter {
         //Draw Sprites//
 		batch.begin();
 
-        obm.update(Gdx.graphics.getDeltaTime());
         bmf.draw(batch,"Gem1 (x,y) : ("+ x1+","+y1+") --- Gem2 (x,y) : ("+x2+","+y2+") --- TouchCnt: " +touchCnt,10,470);
         //obm.render(batch);
 		batch.end();
