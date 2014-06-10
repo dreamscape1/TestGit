@@ -92,6 +92,7 @@ public class MyGdxGame extends ApplicationAdapter {
                          Gdx.graphics.getHeight()/yBLOCK*y+yBLOCK_OFFSET,
                          20,
                          null);
+                entity.get(RowColumn.class).setVec(y,x);
                 em.add(entity);
 
             }

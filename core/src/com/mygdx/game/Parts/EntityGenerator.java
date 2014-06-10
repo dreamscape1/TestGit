@@ -18,6 +18,7 @@ public class EntityGenerator {
         newEntity.attach(new ColorPart());
         newEntity.attach(new CirclePart(radius));
         newEntity.attach(new DescriptionPart());
+        newEntity.attach(new RowColumn());
         newEntity.get(DescriptionPart.class).setID("I am GEM #" + entityCount);
         entityCount++;
 
