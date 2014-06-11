@@ -53,6 +53,16 @@ public class DrawSystem {
             sr.end();
         }
 
+        for(Entity e : em.getAllMatched()){
+            sr.begin(ShapeRenderer.ShapeType.Line);
+            sr.setColor(Color.MAGENTA);
+            sr.rect(e.get(PositionPart.class).getX() - e.get(CirclePart.class).getRadius() - 9,
+                    e.get(PositionPart.class).getY() - e.get(CirclePart.class).getRadius() - 10,
+                    60, 60);
+            sr.end();
+
+        }
+
     }
 
 

@@ -1,7 +1,10 @@
 package com.mygdx.game.Parts;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.System.GameSystem;
+
+import java.util.ArrayList;
 
 
 /**
@@ -11,11 +14,15 @@ public class EntityManager {
 
     private Array<Entity> entities;
     private static Array<Entity> selections;
+    private Entity[][] boardEntity;
+    private Array<Entity> matched;
 
 
     public EntityManager(){
         entities= new Array<Entity>();
         selections = new Array<Entity>();
+        matched = new Array<Entity>();
+        boardEntity = new Entity[MyGdxGame.xBLOCK][MyGdxGame.yBLOCK];
     }
 
 
@@ -42,6 +49,14 @@ public class EntityManager {
         entities.add(entity);
     }
 
+    public void add(Entity e, int row, int col){
+        boardEntity[col][row] =e;
+    }
+
+    public Entity getBoardEntity(int row, int col){
+        return boardEntity[row][col];
+    }
+
     public Array<Entity> getSelections() {
         return selections;
     }
@@ -55,6 +70,14 @@ public class EntityManager {
             selections.add(entity);
         }
 
+    }
+
+    public void addMatch(Entity e){
+        matched.add(e);
+    }
+
+    public Array<Entity> getAllMatched(){
+        return matched;
     }
 
 }

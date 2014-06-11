@@ -23,8 +23,8 @@ public class MyGdxGame extends ApplicationAdapter {
     private float delta;
 
     //**Game Board Stuff**//
-    private static final int xBLOCK =6;
-    private static final int yBLOCK = 5;
+    public static final int xBLOCK =6;
+    public static final int yBLOCK = 5;
     private static final float xBLOCK_OFFSET = 60;
     private static final float yBLOCK_OFFSET = 40;
 
@@ -32,10 +32,6 @@ public class MyGdxGame extends ApplicationAdapter {
     private boolean isDown=false;
     Vector3 mousePos;
 
-
-    private int x1=0,x2=0,y1=0,y2=0;
-    private int touchCnt=0;
-    private BitmapFont bmf;
 
 
     //**SpriteBatch and ShapeRenderer**//
@@ -49,6 +45,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
     //**Systems**//
     private DrawSystem drawer;
+
+    //**Other variables**//
+    private int x1=0,x2=0,y1=0,y2=0;
+    private int touchCnt=0;
+    private BitmapFont bmf;
+    private Entity[][] entities;
 
 	
 	@Override
@@ -79,19 +81,21 @@ public class MyGdxGame extends ApplicationAdapter {
         bmf= new BitmapFont();
 
 
-        //Create 'gem' on screen//
-        for(int x =0 ; x < xBLOCK ; x++){
 
+        //Create 'gem' on screen//
+
+        for(int x =0 ; x < xBLOCK ; x++){
             for(int y =0 ; y <yBLOCK ; y++){
                 Entity entity = EntityGenerator.create
                         (true,
-                         Gdx.graphics.getWidth()/xBLOCK*x +xBLOCK_OFFSET,
-                         Gdx.graphics.getHeight()/yBLOCK*y+yBLOCK_OFFSET,
-                         20,
-                         null);
+                        Gdx.graphics.getWidth()/xBLOCK*x +xBLOCK_OFFSET,
+                        Gdx.graphics.getHeight()/yBLOCK*y+yBLOCK_OFFSET,
+                        20,
+                        null);
                 entity.get(RowColumn.class).setVec(y,x);
                 em.add(entity);
-
+                System.out.println("xBlock :"+x + " --- yBlock : "+y);
+                em.add(entity,xBLOCK,yBLOCK);
             }
         }
 

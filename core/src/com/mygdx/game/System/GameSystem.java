@@ -3,6 +3,7 @@ package com.mygdx.game.System;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Parts.*;
 
 import java.util.ArrayList;
@@ -17,13 +18,16 @@ public class GameSystem {
     private boolean isAnimating;
 
     private EntityManager em;
+
     private Array<Entity> selections;
+
 
 
 
     public GameSystem(EntityManager em){
         isAnimating=false;
         this.em=em;
+
     }
 
     public void update(float dt){
@@ -141,6 +145,22 @@ public class GameSystem {
         return false;
 
 
+    }
+
+    public void findMatch(){
+        for(int i=0; i< MyGdxGame.xBLOCK-2; i++ ){
+            for(int y=0 ; y< MyGdxGame.yBLOCK-2;y++){
+                mColor gem1 = em.getBoardEntity(y,i).get(ColorPart.class).getColor();
+                mColor gem2 = em.getBoardEntity(y,i+1).get(ColorPart.class).getColor();
+                mColor gem3 = em.getBoardEntity(y,i+2).get(ColorPart.class).getColor();
+                if(gem1==gem2 && gem2==gem3){
+                    em.addMatch(em.getBoardEntity(y,i));
+                    em.addMatch(em.getBoardEntity(y,i+1));
+                    em.addMatch(em.getBoardEntity(y,i+2));
+                }
+            }
+
+        }
     }
 
     public boolean isAnimating() {
