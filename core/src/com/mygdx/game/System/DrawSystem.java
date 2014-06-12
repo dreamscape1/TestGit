@@ -52,7 +52,7 @@ public class DrawSystem {
                     60, 60);
             sr.end();
         }
-
+        //System.out.println("Match qty : "+em.getAllMatched().size);
         for(Entity e : em.getAllMatched()){
             sr.begin(ShapeRenderer.ShapeType.Line);
             sr.setColor(Color.MAGENTA);

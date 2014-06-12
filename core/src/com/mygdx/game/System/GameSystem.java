@@ -1,12 +1,9 @@
 package com.mygdx.game.System;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Parts.*;
-
-import java.util.ArrayList;
 
 /**
  * Created by Cyclone on 6/6/2014.
@@ -50,8 +47,8 @@ public class GameSystem {
 
             //After two object is selected and it is a valid swap, start animation.
             if(checkValid(selections)) {
-
-
+                em.clearMatchEntity();
+                //System.out.println("Match qty : "+em.getAllMatched().size);
 
 
                 boolean ani1 = animate(selections.get(0),
@@ -70,15 +67,23 @@ public class GameSystem {
 
                 //When animation has completed, reset everything and loop back
                 if (ani1 && ani2) {
+
+                    //After animation is completed, check for match gem
+                    findMatch();
+
+                    //swapped the vectors and row/col between the chosen gem
                     Vector2 v1 = selections.get(0).get(RowColumn.class).getVec();
                     Vector2 v2 = selections.get(1).get(RowColumn.class).getVec();
-
+                    em.swap(selections.get(0),selections.get(1));
                     selections.get(0).get(RowColumn.class).setVec(v2);
                     selections.get(1).get(RowColumn.class).setVec(v1);
 
+
+                    //reset everything
                     isAnimating = false;
                     selections.clear();
-                    System.out.println("XY is matched.Animation is " + isAnimating);
+                    System.out.println("XY is matched. Animation is " + isAnimating);
+                    //findMatch();
                 }
             }else{
                 isAnimating = false;
@@ -132,15 +137,15 @@ public class GameSystem {
         int col2= (int) v2.x;
 
         if(Math.max(row1,row2)-Math.min(row1,row2) ==1 && Math.max(col1,col2) - Math.min(col1,col2)==0){
-            System.out.println("Row Valid -- Gem1 Row : "+row1 +" --- Gem2 Row : "+ row2);
+            //System.out.println("Row Valid -- Gem1 Row : "+row1 +" --- Gem2 Row : "+ row2);
             return true;
         }
         if(Math.max(col1,col2)-Math.min(col1,col2) ==1 && Math.max(row1,row2) - Math.min(row1,row2)==0){
-            System.out.println("Col Valid -- Gem1 Row : "+col1 +" --- Gem2 Row : "+ col2);
+            //System.out.println("Col Valid -- Gem1 Row : "+col1 +" --- Gem2 Row : "+ col2);
             return true;
         }
 
-        System.out.println("Not Valid -- Gem1 Row : "+row1 +" --- Gem2 Row : "+ row2 + " Gem1 Col : "+ col1 +" --- Gem2 Col : "+ col2);
+        //System.out.println("Not Valid -- Gem1 Row : "+row1 +" --- Gem2 Row : "+ row2 + " Gem1 Col : "+ col1 +" --- Gem2 Col : "+ col2);
 
         return false;
 
@@ -148,15 +153,24 @@ public class GameSystem {
     }
 
     public void findMatch(){
-        for(int i=0; i< MyGdxGame.xBLOCK-2; i++ ){
+        for(int x=0; x< MyGdxGame.xBLOCK-2; x++ ){
             for(int y=0 ; y< MyGdxGame.yBLOCK-2;y++){
-                mColor gem1 = em.getBoardEntity(y,i).get(ColorPart.class).getColor();
-                mColor gem2 = em.getBoardEntity(y,i+1).get(ColorPart.class).getColor();
-                mColor gem3 = em.getBoardEntity(y,i+2).get(ColorPart.class).getColor();
+
+                mColor gem1 = em.getBoardEntity(x,y).get(ColorPart.class).getColor();
+                //System.out.println("found1");
+                mColor gem2 = em.getBoardEntity(x,y+1).get(ColorPart.class).getColor();
+                //System.out.println("found2");
+                mColor gem3 = em.getBoardEntity(x,y+2).get(ColorPart.class).getColor();
+                //System.out.println("found3");
+
                 if(gem1==gem2 && gem2==gem3){
-                    em.addMatch(em.getBoardEntity(y,i));
-                    em.addMatch(em.getBoardEntity(y,i+1));
-                    em.addMatch(em.getBoardEntity(y,i+2));
+                    em.addMatch(em.getBoardEntity(x,y));
+                    em.addMatch(em.getBoardEntity(x,y+1));
+                    em.addMatch(em.getBoardEntity(x,y+2));
+                    System.out.println("Match found");
+                }
+                else{
+                    System.out.println("NO Match found");
                 }
             }
 

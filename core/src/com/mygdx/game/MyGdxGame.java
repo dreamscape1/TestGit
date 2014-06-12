@@ -83,7 +83,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         //Create 'gem' on screen//
-
         for(int x =0 ; x < xBLOCK ; x++){
             for(int y =0 ; y <yBLOCK ; y++){
                 Entity entity = EntityGenerator.create
@@ -92,10 +91,10 @@ public class MyGdxGame extends ApplicationAdapter {
                         Gdx.graphics.getHeight()/yBLOCK*y+yBLOCK_OFFSET,
                         20,
                         null);
-                entity.get(RowColumn.class).setVec(y,x);
+                entity.get(RowColumn.class).setVec(x,y);
                 em.add(entity);
-                System.out.println("xBlock :"+x + " --- yBlock : "+y);
-                em.add(entity,xBLOCK,yBLOCK);
+                em.add(entity,x,y);
+
             }
         }
 
@@ -155,7 +154,7 @@ public class MyGdxGame extends ApplicationAdapter {
                                 mousePos.y <= e.get(PositionPart.class).getY() + e.get(CirclePart.class).getRadius()
                                 ) {
                             em.select(e);
-                            System.out.println(e.get(DescriptionPart.class).getID() + " is selected");
+                            System.out.println(e.get(DescriptionPart.class).getID() + " is selected. My Row is "+e.get(RowColumn.class).getVec());
 
                         }
                     }
@@ -174,7 +173,6 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.dispose();
         super.dispose();
     }
-
 
 
     //Getters and Setters

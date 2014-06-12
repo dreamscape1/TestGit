@@ -50,12 +50,14 @@ public class EntityManager {
     }
 
     public void add(Entity e, int row, int col){
-        boardEntity[col][row] =e;
+        boardEntity[row][col] =e;
     }
 
     public Entity getBoardEntity(int row, int col){
         return boardEntity[row][col];
     }
+
+
 
     public Array<Entity> getSelections() {
         return selections;
@@ -72,12 +74,29 @@ public class EntityManager {
 
     }
 
+
+
+    public Array<Entity> getAllMatched(){
+        return matched;
+    }
+
+    public synchronized void clearMatchEntity(){
+        //matched.clear();
+        //matched.removeAll(matched,true);
+        for(int i =0; i<matched.size;i++) matched.removeIndex(i);
+    }
+
     public void addMatch(Entity e){
         matched.add(e);
     }
 
-    public Array<Entity> getAllMatched(){
-        return matched;
+
+    public void swap(Entity e1, Entity e2){
+        Entity buffer =e1;
+        boardEntity[(int) e1.get(RowColumn.class).getVec().x][(int) e1.get(RowColumn.class).getVec().y] =e2;
+        boardEntity[(int) e2.get(RowColumn.class).getVec().x][(int) e2.get(RowColumn.class).getVec().y] =e1;
+
+
     }
 
 }
