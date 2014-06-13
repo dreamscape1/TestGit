@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +13,8 @@ import com.mygdx.game.Parts.*;
 import com.mygdx.game.System.DrawSystem;
 import com.mygdx.game.System.GameSystem;
 
+import javax.swing.text.Position;
+
 public class MyGdxGame extends ApplicationAdapter {
 
 
@@ -23,8 +24,8 @@ public class MyGdxGame extends ApplicationAdapter {
     private float delta;
 
     //**Game Board Stuff**//
-    public static final int xBLOCK =6;
-    public static final int yBLOCK = 5;
+    public static final int rowBLOCK = 4;
+    public static final int colBLOCK =5;
     private static final float xBLOCK_OFFSET = 60;
     private static final float yBLOCK_OFFSET = 40;
 
@@ -57,7 +58,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
         //Initialize Camera
         cam = new OrthographicCamera();
-        cam.setToOrtho(false,640,480);
+        cam.setToOrtho(false,1280,720);
 
         //Initialize Inputprocessor//
         mousePos = new Vector3();
@@ -82,16 +83,18 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
+
+
         //Create 'gem' on screen//
-        for(int x =0 ; x < xBLOCK ; x++){
-            for(int y =0 ; y <yBLOCK ; y++){
+        for(int x =0 ; x < colBLOCK; x++){ // x is col; y is row
+            for(int y =0 ; y < rowBLOCK; y++){
                 Entity entity = EntityGenerator.create
                         (true,
-                        Gdx.graphics.getWidth()/xBLOCK*x +xBLOCK_OFFSET,
-                        Gdx.graphics.getHeight()/yBLOCK*y+yBLOCK_OFFSET,
+                        Gdx.graphics.getWidth()/ colBLOCK *x +xBLOCK_OFFSET,
+                        Gdx.graphics.getHeight()/ rowBLOCK *y+yBLOCK_OFFSET,
                         20,
                         null);
-                entity.get(RowColumn.class).setVec(x,y);
+                entity.get(RowColumn.class).setVec(y,x);
                 em.add(entity);
                 em.add(entity,x,y);
 
@@ -127,7 +130,15 @@ public class MyGdxGame extends ApplicationAdapter {
         //Draw Sprites//
 		batch.begin();
 
-        bmf.draw(batch,"Gem1 (x,y) : ("+ x1+","+y1+") --- Gem2 (x,y) : ("+x2+","+y2+") --- TouchCnt: " +touchCnt,10,470);
+        //bmf.draw(batch,"Gem1 (x,y) : ("+ x1+","+y1+") --- Gem2 (x,y) : ("+x2+","+y2+") --- TouchCnt: " +touchCnt,10,470);
+        for(Entity e : em.getEntities()){
+            bmf.draw(batch,
+                    e.get(DescriptionPart.class).getID()+
+                    " \r- Row: "+ e.get(RowColumn.class).getVec().y +
+                    " - Col : "+ e.get(RowColumn.class).getVec().x,
+                    e.get(PositionPart.class).getX()-20,
+                    e.get(PositionPart.class).getY());
+        }
         //obm.render(batch);
 		batch.end();
 

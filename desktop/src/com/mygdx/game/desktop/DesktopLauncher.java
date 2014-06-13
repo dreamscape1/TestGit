@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title= "My LibGDX Test";
         config.useGL30 = false;
-        config.width = 640;
-        config.height = 480;
+        config.width = 1280;
+        config.height = 720;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

@@ -32,6 +32,9 @@ public class GameSystem {
         //Run only If previous animation has completed
         if(!isAnimating) {
 
+            em.clearMatchEntity();
+            findMatch();
+
             //If user has selected two object, get the two objects XY and store it. Then set the animation to start
             this.selections = em.getSelections();
             if (selections.size == 2) {
@@ -47,8 +50,7 @@ public class GameSystem {
 
             //After two object is selected and it is a valid swap, start animation.
             if(checkValid(selections)) {
-                em.clearMatchEntity();
-                //System.out.println("Match qty : "+em.getAllMatched().size);
+
 
 
                 boolean ani1 = animate(selections.get(0),
@@ -69,7 +71,9 @@ public class GameSystem {
                 if (ani1 && ani2) {
 
                     //After animation is completed, check for match gem
-                    findMatch();
+                    //em.clearMatchEntity();
+                    //System.out.println("Match qty : "+em.getAllMatched().size);
+                    //findMatch();
 
                     //swapped the vectors and row/col between the chosen gem
                     Vector2 v1 = selections.get(0).get(RowColumn.class).getVec();
@@ -131,7 +135,7 @@ public class GameSystem {
         Vector2 v1 = selections.get(0).get(RowColumn.class).getVec();
         Vector2 v2 = selections.get(1).get(RowColumn.class).getVec();
 
-        int row1= (int) v1.y;
+        int row1= (int) v1.y;//i changed this to x, previously is y to troubleshoot matching procedures that throw ArrayIndexOutofBoundException
         int row2= (int) v2.y;
         int col1= (int) v1.x;
         int col2= (int) v2.x;
@@ -153,8 +157,8 @@ public class GameSystem {
     }
 
     public void findMatch(){
-        for(int x=0; x< MyGdxGame.xBLOCK-2; x++ ){
-            for(int y=0 ; y< MyGdxGame.yBLOCK-2;y++){
+        for(int x=0; x< MyGdxGame.colBLOCK ; x++ ){
+            for(int y=0 ; y< MyGdxGame.rowBLOCK-2;y++){
 
                 mColor gem1 = em.getBoardEntity(x,y).get(ColorPart.class).getColor();
                 //System.out.println("found1");

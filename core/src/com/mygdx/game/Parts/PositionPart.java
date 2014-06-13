@@ -10,8 +10,8 @@ public class PositionPart extends Part {
 
 
 
-    private float xSpeed=450;
-    private float ySpeed=450;
+    private float xSpeed=800;
+    private float ySpeed=600;
 
     public PositionPart(float x, float y){
         this.x=x;

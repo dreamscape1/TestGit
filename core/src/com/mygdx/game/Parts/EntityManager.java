@@ -2,9 +2,6 @@ package com.mygdx.game.Parts;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.System.GameSystem;
-
-import java.util.ArrayList;
 
 
 /**
@@ -22,7 +19,7 @@ public class EntityManager {
         entities= new Array<Entity>();
         selections = new Array<Entity>();
         matched = new Array<Entity>();
-        boardEntity = new Entity[MyGdxGame.xBLOCK][MyGdxGame.yBLOCK];
+        boardEntity = new Entity[MyGdxGame.rowBLOCK][MyGdxGame.colBLOCK]; //x is col, y is row
     }
 
 
@@ -50,11 +47,11 @@ public class EntityManager {
     }
 
     public void add(Entity e, int row, int col){
-        boardEntity[row][col] =e;
+        boardEntity[col][row] =e;
     }
 
     public Entity getBoardEntity(int row, int col){
-        return boardEntity[row][col];
+        return boardEntity[col][row];
     }
 
 
@@ -93,8 +90,16 @@ public class EntityManager {
 
     public void swap(Entity e1, Entity e2){
         Entity buffer =e1;
-        boardEntity[(int) e1.get(RowColumn.class).getVec().x][(int) e1.get(RowColumn.class).getVec().y] =e2;
-        boardEntity[(int) e2.get(RowColumn.class).getVec().x][(int) e2.get(RowColumn.class).getVec().y] =e1;
+        int x1 = (int) e1.get(RowColumn.class).getVec().x;
+        int y1 = (int) e1.get(RowColumn.class).getVec().y;
+
+        int x2 = (int) e2.get(RowColumn.class).getVec().x;
+        int y2 = (int) e2.get(RowColumn.class).getVec().y;
+
+        System.out.println("(x1,y1) : "+x1+","+y1+ "--- (x2,y2) : "+ x2+","+y2);
+
+        boardEntity[y1][x1] =e2;
+        boardEntity[y2][x2] =e1;
 
 
     }
