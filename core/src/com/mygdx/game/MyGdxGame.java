@@ -118,6 +118,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
         //Check Input//
         CheckInput();
+
+        //Update Game Logic//
         gm.update(Gdx.graphics.getDeltaTime());
 
         //Draw Shape//
