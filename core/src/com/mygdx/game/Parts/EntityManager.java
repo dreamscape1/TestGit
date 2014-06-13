@@ -78,13 +78,14 @@ public class EntityManager {
     }
 
     public synchronized void clearMatchEntity(){
-        //matched.clear();
+        matched.clear();
         //matched.removeAll(matched,true);
-        for(int i =0; i<matched.size;i++) matched.removeIndex(i);
+        //for(int i =0; i<matched.size;i++) matched.removeIndex(i);
     }
 
     public void addMatch(Entity e){
-        matched.add(e);
+        if(!matched.contains(e,true)) matched.add(e);
+
     }
 
 

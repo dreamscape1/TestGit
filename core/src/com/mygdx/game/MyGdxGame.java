@@ -131,14 +131,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 
         //bmf.draw(batch,"Gem1 (x,y) : ("+ x1+","+y1+") --- Gem2 (x,y) : ("+x2+","+y2+") --- TouchCnt: " +touchCnt,10,470);
-        for(Entity e : em.getEntities()){
-            bmf.draw(batch,
-                    e.get(DescriptionPart.class).getID()+
-                    " \r- Row: "+ e.get(RowColumn.class).getVec().y +
-                    " - Col : "+ e.get(RowColumn.class).getVec().x,
-                    e.get(PositionPart.class).getX()-20,
-                    e.get(PositionPart.class).getY());
-        }
+
         //obm.render(batch);
 		batch.end();
 

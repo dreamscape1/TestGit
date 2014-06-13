@@ -32,7 +32,7 @@ public class GameSystem {
         //Run only If previous animation has completed
         if(!isAnimating) {
 
-            em.clearMatchEntity();
+            //em.clearMatchEntity();
             findMatch();
 
             //If user has selected two object, get the two objects XY and store it. Then set the animation to start
@@ -86,12 +86,14 @@ public class GameSystem {
                     //reset everything
                     isAnimating = false;
                     selections.clear();
+                    em.clearMatchEntity();
                     System.out.println("XY is matched. Animation is " + isAnimating);
                     //findMatch();
                 }
             }else{
                 isAnimating = false;
                 selections.clear();
+                //em.clearMatchEntity();
                 System.out.println("Row not valid");
             }
 
@@ -157,28 +159,46 @@ public class GameSystem {
     }
 
     public void findMatch(){
+        System.out.println("Match qty : "+em.getAllMatched().size);
         for(int x=0; x< MyGdxGame.colBLOCK ; x++ ){
             for(int y=0 ; y< MyGdxGame.rowBLOCK-2;y++){
 
                 mColor gem1 = em.getBoardEntity(x,y).get(ColorPart.class).getColor();
-                //System.out.println("found1");
                 mColor gem2 = em.getBoardEntity(x,y+1).get(ColorPart.class).getColor();
-                //System.out.println("found2");
                 mColor gem3 = em.getBoardEntity(x,y+2).get(ColorPart.class).getColor();
-                //System.out.println("found3");
 
                 if(gem1==gem2 && gem2==gem3){
                     em.addMatch(em.getBoardEntity(x,y));
                     em.addMatch(em.getBoardEntity(x,y+1));
                     em.addMatch(em.getBoardEntity(x,y+2));
-                    System.out.println("Match found");
+                    //System.out.println("Match found");
                 }
                 else{
-                    System.out.println("NO Match found");
+                    //System.out.println("NO Match found");
                 }
             }
 
         }
+        for(int x=0; x< MyGdxGame.colBLOCK-2 ; x++ ){
+            for(int y=0 ; y< MyGdxGame.rowBLOCK;y++){
+
+                mColor gem1 = em.getBoardEntity(x,y).get(ColorPart.class).getColor();
+                mColor gem2 = em.getBoardEntity(x+1,y).get(ColorPart.class).getColor();
+                mColor gem3 = em.getBoardEntity(x+2,y).get(ColorPart.class).getColor();
+
+                if(gem1==gem2 && gem2==gem3){
+                    em.addMatch(em.getBoardEntity(x,y));
+                    em.addMatch(em.getBoardEntity(x+1,y));
+                    em.addMatch(em.getBoardEntity(x+2,y));
+                    //System.out.println("Match found");
+                }
+                else{
+                    //System.out.println("NO Match found");
+                }
+            }
+
+        }
+
     }
 
     public boolean isAnimating() {
