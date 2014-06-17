@@ -85,7 +85,14 @@ public class GameSystem {
 
                     //reset everything
                     isAnimating = false;
+
                     selections.clear();
+                    for(Entity e : em.getAllMatched()){
+                        e.get(DescriptionPart.class).setID("I'm a dead gem");
+                        e.get(AlivePart.class).setAlive(false);
+                        em.putPool(e);
+                    }
+
                     em.clearMatchEntity();
                     System.out.println("XY is matched. Animation is " + isAnimating);
                     //findMatch();

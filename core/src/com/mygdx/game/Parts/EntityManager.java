@@ -13,6 +13,8 @@ public class EntityManager {
     private static Array<Entity> selections;
     private Entity[][] boardEntity;
     private Array<Entity> matched;
+    private Array<Entity> entityPool;
+    private boolean isMatched;
 
 
     public EntityManager(){
@@ -20,10 +22,37 @@ public class EntityManager {
         selections = new Array<Entity>();
         matched = new Array<Entity>();
         boardEntity = new Entity[MyGdxGame.rowBLOCK][MyGdxGame.colBLOCK]; //x is col, y is row
+        entityPool = new Array<Entity>();
     }
 
 
+    //**Simple Entity Pool**//
+    public void putPool(Entity e){
+        if(entityPool.size>0) {
+            if (!entityPool.contains(e, true)) {
+                entityPool.add(e);
+            }
+        }else{
+            entityPool.add(e);
+        }
+    }
 
+    public Entity obtainPool(){
+        return entityPool.get(entityPool.size-1);
+    }
+
+
+    public void update(){
+        for(Entity e : entities){
+            if(!e.get(AlivePart.class).isAlive()){
+                putPool(e);
+                entities.removeValue(e,true);
+            }
+        }
+
+    }
+
+    //**All Entities**//
     public Array<Entity> getEntities() {
         return entities;
     }
@@ -46,6 +75,8 @@ public class EntityManager {
         entities.add(entity);
     }
 
+
+    //**Entities in X,Y**//
     public void add(Entity e, int row, int col){
         boardEntity[col][row] =e;
     }
@@ -55,7 +86,7 @@ public class EntityManager {
     }
 
 
-
+    //**User Selected Entity**//
     public Array<Entity> getSelections() {
         return selections;
     }
@@ -72,7 +103,7 @@ public class EntityManager {
     }
 
 
-
+    //**Matched Entities**//
     public Array<Entity> getAllMatched(){
         return matched;
     }
@@ -89,6 +120,7 @@ public class EntityManager {
     }
 
 
+    //**Entity Manipulation
     public void swap(Entity e1, Entity e2){
         Entity buffer =e1;
         int x1 = (int) e1.get(RowColumn.class).getVec().x;

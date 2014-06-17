@@ -14,6 +14,8 @@ public class EntityGenerator {
     public static Entity create(boolean isRandom, float x, float y, float radius, mColor color){
 
         Entity newEntity = new Entity();
+        //newEntity.get(Part.class).setAlive(true);
+        newEntity.attach(new AlivePart(true));
         newEntity.attach(new PositionPart(x,y));
         newEntity.attach(new ColorPart());
         newEntity.attach(new CirclePart(radius));

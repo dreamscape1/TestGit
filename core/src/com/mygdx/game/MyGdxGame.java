@@ -13,8 +13,6 @@ import com.mygdx.game.Parts.*;
 import com.mygdx.game.System.DrawSystem;
 import com.mygdx.game.System.GameSystem;
 
-import javax.swing.text.Position;
-
 public class MyGdxGame extends ApplicationAdapter {
 
 
@@ -24,10 +22,10 @@ public class MyGdxGame extends ApplicationAdapter {
     private float delta;
 
     //**Game Board Stuff**//
-    public static final int rowBLOCK = 4;
-    public static final int colBLOCK =5;
-    private static final float xBLOCK_OFFSET = 60;
-    private static final float yBLOCK_OFFSET = 40;
+    public static final int rowBLOCK = 5;
+    public static final int colBLOCK =6;
+    public static final float xBLOCK_OFFSET = 60;
+    public static final float yBLOCK_OFFSET = 40;
 
     //Input polling stuff//
     private boolean isDown=false;
@@ -42,6 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
     //**Managers**//
     private EntityManager em;
     private GameSystem gm;
+    private GameBoardManager gbm;
     //public static TextureLoader textureManager;
 
     //**Systems**//
@@ -74,6 +73,8 @@ public class MyGdxGame extends ApplicationAdapter {
         //Initialize Managers//
         em = new EntityManager();
         gm = new GameSystem(em);
+        gbm = new GameBoardManager(em);
+        gbm.initialize();
 
         //Initialize Systems//
         drawer=new DrawSystem(em, this);
@@ -86,7 +87,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         //Create 'gem' on screen//
-        for(int x =0 ; x < colBLOCK; x++){ // x is col; y is row
+        /*for(int x =0 ; x < colBLOCK; x++){ // x is col; y is row
             for(int y =0 ; y < rowBLOCK; y++){
                 Entity entity = EntityGenerator.create
                         (true,
@@ -99,7 +100,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 em.add(entity,x,y);
 
             }
-        }
+        }*/
 
 	}
 
@@ -121,6 +122,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         //Update Game Logic//
         gm.update(Gdx.graphics.getDeltaTime());
+        em.update();
 
         //Draw Shape//
         //sr.begin(ShapeRenderer.ShapeType.Filled);
