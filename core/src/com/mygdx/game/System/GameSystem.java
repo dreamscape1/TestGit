@@ -33,7 +33,7 @@ public class GameSystem {
         if(!isAnimating) {
 
             //em.clearMatchEntity();
-            findMatch();
+            findMatch2();
 
             //If user has selected two object, get the two objects XY and store it. Then set the animation to start
             this.selections = em.getSelections();
@@ -178,6 +178,56 @@ public class GameSystem {
                     em.addMatch(em.getBoardEntity(x,y));
                     em.addMatch(em.getBoardEntity(x,y+1));
                     em.addMatch(em.getBoardEntity(x,y+2));
+                    //System.out.println("Match found");
+                }
+                else{
+                    //System.out.println("NO Match found");
+                }
+            }
+
+        }
+        for(int x=0; x< MyGdxGame.colBLOCK-2 ; x++ ){
+            for(int y=0 ; y< MyGdxGame.rowBLOCK;y++){
+
+                mColor gem1 = em.getBoardEntity(x,y).get(ColorPart.class).getColor();
+                mColor gem2 = em.getBoardEntity(x+1,y).get(ColorPart.class).getColor();
+                mColor gem3 = em.getBoardEntity(x+2,y).get(ColorPart.class).getColor();
+
+                if(gem1==gem2 && gem2==gem3){
+                    em.addMatch(em.getBoardEntity(x,y));
+                    em.addMatch(em.getBoardEntity(x+1,y));
+                    em.addMatch(em.getBoardEntity(x+2,y));
+                    //System.out.println("Match found");
+                }
+                else{
+                    //System.out.println("NO Match found");
+                }
+            }
+
+        }
+
+    }
+
+    public void findMatch2(){
+        System.out.println("Match qty : "+em.getAllMatched().size);
+        for(int x=0; x< MyGdxGame.colBLOCK ; x++ ){
+            for(int y=0 ; y< MyGdxGame.rowBLOCK-2;y++){
+
+                mColor gem1 = em.find(x,y).get(ColorPart.class).getColor();
+
+                mColor gem2 = em.find(x,y+1).get(ColorPart.class).getColor();
+
+                mColor gem3 = em.find(x,y+2).get(ColorPart.class).getColor();
+
+
+                //mColor gem1 = em.getBoardEntity(x,y).get(ColorPart.class).getColor();
+                //mColor gem2 = em.getBoardEntity(x,y+1).get(ColorPart.class).getColor();
+                //mColor gem3 = em.getBoardEntity(x,y+2).get(ColorPart.class).getColor();
+
+                if(gem1==gem2 && gem2==gem3){
+                    em.addMatch(em.find(x,y));
+                    em.addMatch(em.find(x,y+1));
+                    em.addMatch(em.find(x,y+2));
                     //System.out.println("Match found");
                 }
                 else{

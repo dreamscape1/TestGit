@@ -1,7 +1,9 @@
 package com.mygdx.game.Parts;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
+import com.sun.rowset.internal.Row;
 
 
 /**
@@ -73,6 +75,29 @@ public class EntityManager {
 
     public void add(Entity entity){
         entities.add(entity);
+    }
+
+    public Entity find(Vector2 vec2){
+        Entity e1 = new Entity();
+        for(Entity e : entities){
+            Vector2 buff = e.get(RowColumn.class).getVec();
+            int buffx =(int) buff.x;
+            int buffy =(int) buff.y;
+            if(buffx == (int) vec2.x && buffy== (int) vec2.y){
+                e1=e;
+                break;
+            }
+        }
+        if(e1==null){
+            throw new NullPointerException("Not found");
+        }
+        return e1;
+    }
+
+    public Entity find(int x, int y){
+        Vector2 vec2 = new Vector2(x,y);
+        Entity buf =find(vec2);
+        return buf;
     }
 
 

@@ -30,4 +30,6 @@ public class Entity {
     public <T extends Part> boolean has(Class<T>partClass){
          return parts.containsKey(partClass);
      }
+
+
 }
