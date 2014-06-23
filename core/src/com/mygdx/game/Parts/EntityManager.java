@@ -110,6 +110,13 @@ public class EntityManager {
         return boardEntity[col][row];
     }
 
+    public Entity[][] getBoardEntity() {
+        return boardEntity;
+    }
+
+    public int getBoardEntitySize(){
+        return getBoardEntity().length*getBoardEntity()[0].length;
+    }
 
     //**User Selected Entity**//
     public Array<Entity> getSelections() {

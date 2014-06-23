@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Parts.*;
+import com.mygdx.game.System.AnimationSystem;
 import com.mygdx.game.System.DrawSystem;
 import com.mygdx.game.System.GameSystem;
 
@@ -41,6 +42,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private EntityManager em;
     private GameSystem gm;
     private GameBoardManager gbm;
+    private AnimationSystem am;
     //public static TextureLoader textureManager;
 
     //**Systems**//
@@ -73,8 +75,10 @@ public class MyGdxGame extends ApplicationAdapter {
         //Initialize Managers//
         em = new EntityManager();
         gm = new GameSystem(em);
-        gbm = new GameBoardManager(em);
+        am = new AnimationSystem();
+        gbm = new GameBoardManager(em,am);
         gbm.initialize();
+
 
         //Initialize Systems//
         drawer=new DrawSystem(em, this);
@@ -123,6 +127,8 @@ public class MyGdxGame extends ApplicationAdapter {
         //Update Game Logic//
         gm.update(Gdx.graphics.getDeltaTime());
         em.update();
+        gbm.update();
+        am.update(Gdx.graphics.getDeltaTime());
 
         //Draw Shape//
         //sr.begin(ShapeRenderer.ShapeType.Filled);
