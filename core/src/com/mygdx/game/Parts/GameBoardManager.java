@@ -35,13 +35,11 @@ public class GameBoardManager {
 
                 if(!em.getBoardEntity(x,y).get(AlivePart.class).isAlive()){
                     if(em.getBoardEntity(x,y+1).get(AlivePart.class).isAlive()){
-                        //System.out.println("GBM: Stuff added to animation queue");
+                        System.out.println("GBM: Stuff added to animation queue");
                         am.addtoQueue(em.getBoardEntity(x,y+1),em.getBoardEntity(x,y));
                     }
                 }
-
             }
-
         }
     }
 

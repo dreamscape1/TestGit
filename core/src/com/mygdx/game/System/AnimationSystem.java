@@ -3,6 +3,7 @@ package com.mygdx.game.System;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Parts.DescriptionPart;
 import com.mygdx.game.Parts.Entity;
+import com.mygdx.game.Parts.EntityManager;
 import com.mygdx.game.Parts.PositionPart;
 
 /**
@@ -14,10 +15,13 @@ public class AnimationSystem {
     private Array<Entity> targetEntityAnimationDestination;
     private Array<Boolean> animationQueue;
 
-    private boolean isAnimating;
+    private EntityManager em;
+
+    private static boolean isAnimating;
 
 
-    public AnimationSystem(){
+    public AnimationSystem(EntityManager em){
+        this.em=em;
         entityToAnimate = new Array<Entity>();
         targetEntityAnimationDestination = new Array<Entity>();
         animationQueue = new Array<Boolean>();
@@ -36,9 +40,11 @@ public class AnimationSystem {
                                            dt)
                 );
                 if(animationQueue.get(i)){
+                    em.swap(entityToAnimate.get(i),targetEntityAnimationDestination.get(i));
                     entityToAnimate.removeIndex(i);
                     targetEntityAnimationDestination.removeIndex(i);
                     animationQueue.removeIndex(i);
+                    System.out.println("Run remove");
                 }
             }
         }
@@ -106,7 +112,7 @@ public class AnimationSystem {
         return targetEntityAnimationDestination;
     }
 
-    public boolean isAnimating() {
+    public static boolean isAnimating() {
         return isAnimating;
     }
 

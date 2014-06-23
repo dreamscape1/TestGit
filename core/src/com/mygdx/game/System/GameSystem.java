@@ -29,80 +29,78 @@ public class GameSystem {
     }
 
     public void update(float dt){
+        if(!AnimationSystem.isAnimating()) {
+            //Run only If previous animation has completed
+            if (!isAnimating) {
 
-        //Run only If previous animation has completed
-        if(!isAnimating) {
+                //Check if the board is filled
+                if (em.getBoardEntitySize() < MyGdxGame.colBLOCK * MyGdxGame.rowBLOCK) {
+                    System.out.println("Board not filled");
+                }
 
-            //Check if the board is filled
-            if(em.getBoardEntitySize() < MyGdxGame.colBLOCK*MyGdxGame.rowBLOCK)
-            {
-                System.out.println("Board not filled");
-            }
+                //If there is matching gem, remove it and TODO: add points
+                if (em.getAllMatched().size >= 3) {
+                    removeMatch();
+                    System.out.println("Board Entity qty:" + em.getBoardEntitySize());
+                }
 
-            //If there is matching gem, remove it and TODO: add points
-            if(em.getAllMatched().size >=3){
-                removeMatch();
-                System.out.println("Board Entity qty:" + em.getBoardEntitySize());
-            }
+                //Check if there is matching gems
+                findMatch2();
 
-            //Check if there is matching gems
-            findMatch2();
-
-            //If user has selected two object, get the two objects XY and store it. Then set the animation to start
-            this.selections = em.getSelections();
-            if (selections.size == 2) {
+                //If user has selected two object, get the two objects XY and store it. Then set the animation to start
+                this.selections = em.getSelections();
+                if (selections.size == 2) {
                     x1 = selections.get(0).get(PositionPart.class).getX();
                     x2 = selections.get(1).get(PositionPart.class).getX();
 
                     y1 = selections.get(0).get(PositionPart.class).getY();
                     y2 = selections.get(1).get(PositionPart.class).getY();
                     isAnimating = true;
-            }
-        }
-        else {
+                }
+            } else {
 
-            //After two object is selected and it is a valid swap, start animation.
-            if(checkValid(selections)) {
-
+                //After two object is selected and it is a valid swap, start animation.
+                if (checkValid(selections)) {
 
 
-                boolean ani1 = animate(selections.get(0),
-                        selections.get(0).get(PositionPart.class).getX(),
-                        selections.get(0).get(PositionPart.class).getY(),
-                        x2,
-                        y2,
-                        dt);
-                boolean ani2 = animate(selections.get(1),
-                        selections.get(1).get(PositionPart.class).getX(),
-                        selections.get(1).get(PositionPart.class).getY(),
-                        x1,
-                        y1,
-                        dt);
+                    boolean ani1 = animate(selections.get(0),
+                            selections.get(0).get(PositionPart.class).getX(),
+                            selections.get(0).get(PositionPart.class).getY(),
+                            x2,
+                            y2,
+                            dt);
+                    boolean ani2 = animate(selections.get(1),
+                            selections.get(1).get(PositionPart.class).getX(),
+                            selections.get(1).get(PositionPart.class).getY(),
+                            x1,
+                            y1,
+                            dt);
 
 
-                //When animation has completed, reset everything and loop back
-                if (ani1 && ani2) {
+                    //When animation has completed, reset everything and loop back
+                    if (ani1 && ani2) {
 
-                    //swapped the vectors and row/col between the chosen gem
-                    Vector2 v1 = selections.get(0).get(RowColumn.class).getVec();
-                    Vector2 v2 = selections.get(1).get(RowColumn.class).getVec();
-                    em.swap(selections.get(0),selections.get(1));
-                    selections.get(0).get(RowColumn.class).setVec(v2);
-                    selections.get(1).get(RowColumn.class).setVec(v1);
+                        //swapped the vectors and row/col between the chosen gem
+                        Vector2 v1 = selections.get(0).get(RowColumn.class).getVec();
+                        Vector2 v2 = selections.get(1).get(RowColumn.class).getVec();
+                        em.swap(selections.get(0), selections.get(1));
+                        selections.get(0).get(RowColumn.class).setVec(v2);
+                        selections.get(1).get(RowColumn.class).setVec(v1);
 
 
-                    //reset everything
+                        //reset everything
+                        isAnimating = false;
+                        selections.clear();
+
+                        System.out.println("XY is matched. Animation is " + isAnimating);
+                    }
+                } else {
                     isAnimating = false;
                     selections.clear();
-
-                    System.out.println("XY is matched. Animation is " + isAnimating);
+                    System.out.println("Row not valid");
                 }
-            }else{
-                isAnimating = false;
-                selections.clear();
-                System.out.println("Row not valid");
-            }
 
+            }
         }
 
     }
@@ -212,7 +210,7 @@ public class GameSystem {
         if(count <1) {
             //System.out.println("Check for match");
             count++;
-            System.out.println("Match qty : " + em.getAllMatched().size);
+            //System.out.println("Match qty : " + em.getAllMatched().size);
             for (int x = 0; x < MyGdxGame.colBLOCK; x++) {
                 for (int y = 0; y < MyGdxGame.rowBLOCK - 2; y++) {
 

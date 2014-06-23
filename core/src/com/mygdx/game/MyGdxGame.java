@@ -75,7 +75,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //Initialize Managers//
         em = new EntityManager();
         gm = new GameSystem(em);
-        am = new AnimationSystem();
+        am = new AnimationSystem(em);
         gbm = new GameBoardManager(em,am);
         gbm.initialize();
 
